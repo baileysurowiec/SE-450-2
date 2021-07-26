@@ -1,14 +1,16 @@
 package model.persistence;
 
-import model.ShapeColor;
-import model.ShapeShadingType;
-import model.ShapeType;
-import model.MouseMode;
+
+import model.*;
 import model.dialogs.DialogProvider;
 import model.interfaces.IApplicationState;
 import model.interfaces.IDialogProvider;
+import model.shapes.MyShapesList;
+import model.shapes.ShapeConfigs;
 import view.interfaces.IUiModule;
 
+// lots of sets and gets here
+// "Toolbar Choices"
 public class ApplicationState implements IApplicationState {
     private final IUiModule uiModule;
     private final IDialogProvider dialogProvider;
@@ -18,6 +20,7 @@ public class ApplicationState implements IApplicationState {
     private ShapeColor activeSecondaryColor;
     private ShapeShadingType activeShapeShadingType;
     private MouseMode activeMouseMode;
+    private MyShapesList myShapesList;
 
     public ApplicationState(IUiModule uiModule) {
         this.uiModule = uiModule;
@@ -46,34 +49,40 @@ public class ApplicationState implements IApplicationState {
     }
 
     @Override
-    public void setActiveStartAndEndPointMode() {
+    public void setActiveMouseMode() {
         activeMouseMode = uiModule.getDialogResponse(dialogProvider.getChooseStartAndEndPointModeDialog());
+    }
+
+
+    @Override
+    public ShapeConfigs getShapeSettings() {
+        ShapeConfigs shapeConfigs = new ShapeConfigs();
+        shapeConfigs.setPrimaryColor(activePrimaryColor);
+        shapeConfigs.setSecondaryColor(activeSecondaryColor);
+        shapeConfigs.setShapeType(activeShapeType);
+        shapeConfigs.setShadingType(activeShapeShadingType);
+        return shapeConfigs;
     }
 
     @Override
     public ShapeType getActiveShapeType() {
         return activeShapeType;
     }
-
     @Override
     public ShapeColor getActivePrimaryColor() {
         return activePrimaryColor;
     }
-
     @Override
     public ShapeColor getActiveSecondaryColor() {
         return activeSecondaryColor;
     }
-
     @Override
     public ShapeShadingType getActiveShapeShadingType() {
         return activeShapeShadingType;
     }
-
     @Override
-    public MouseMode getActiveMouseMode() {
-        return activeMouseMode;
-    }
+    public MouseMode getActiveMouseMode() { return activeMouseMode; }
+
 
     private void setDefaults() {
         activeShapeType = ShapeType.RECTANGLE;
@@ -82,4 +91,5 @@ public class ApplicationState implements IApplicationState {
         activeShapeShadingType = ShapeShadingType.FILLED_IN;
         activeMouseMode = MouseMode.DRAW;
     }
+
 }

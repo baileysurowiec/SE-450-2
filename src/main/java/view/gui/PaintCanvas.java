@@ -1,15 +1,19 @@
 package view.gui;
 
+import controller.DrawShapes;
+import model.interfaces.IShape;
+import model.shapes.MyShapesList;
 import view.interfaces.PaintCanvasBase;
 
-import javax.swing.JComponent;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class PaintCanvas extends PaintCanvasBase {
-
     public Graphics2D getGraphics2D() {
         return (Graphics2D)getGraphics();
     }
+
+
 
     @Override
     /**
@@ -19,7 +23,17 @@ public class PaintCanvas extends PaintCanvasBase {
      */
     public void paint(Graphics g) {
         super.paint(g);
+//        Graphics2D g2d = (Graphics2D) g;
+//        for (IShape shape : myShapesList){
+//            shape.draw(g);
+//            if (shape.getMadeShape().shapeSelected) {
+//                drawSelected(shape);
+//            }
+//        }
+//        DrawShapes drawShapes = new DrawShapes(myShapeList, pc);
+
 
         System.out.println("Time to repaint");
     }
+
 }

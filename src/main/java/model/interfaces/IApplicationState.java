@@ -1,9 +1,8 @@
 package model.interfaces;
 
-import model.ShapeColor;
-import model.ShapeShadingType;
-import model.ShapeType;
-import model.MouseMode;
+
+import model.*;
+import model.shapes.ShapeConfigs;
 
 public interface IApplicationState {
     void setActiveShape();
@@ -14,8 +13,11 @@ public interface IApplicationState {
 
     void setActiveShadingType();
 
-    void setActiveStartAndEndPointMode();
+    void setActiveMouseMode();
 
+    ShapeConfigs getShapeSettings();
+
+    // these are enums
     ShapeType getActiveShapeType();
 
     ShapeColor getActivePrimaryColor();
@@ -25,4 +27,6 @@ public interface IApplicationState {
     ShapeShadingType getActiveShapeShadingType();
 
     MouseMode getActiveMouseMode();
+
+
 }

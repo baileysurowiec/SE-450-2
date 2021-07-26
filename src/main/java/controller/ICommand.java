@@ -1,5 +1,7 @@
 package controller;
 
-public interface ICommand {
+import view.interfaces.IEventCallback;
+
+public interface ICommand{
     void run();
 }

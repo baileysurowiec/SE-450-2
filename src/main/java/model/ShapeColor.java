@@ -2,45 +2,33 @@ package model;
 
 import java.awt.*;
 
+import static java.awt.Color.*;
+
+// watch tutorial vid from discord chat
 public enum ShapeColor {
-    BLACK {
-        public Color getColor(){
-            return Color.BLACK;
-        }
-    },
-    BLUE{
-        public Color getColor(){ return Color.BLUE; }
-    },
-    CYAN{
-        public Color getColor(){ return Color.CYAN; }
-    },
-    DARK_GRAY{
-        public Color getColor(){ return Color.DARK_GRAY; }
-    },
-    GRAY{
-        public Color getColor(){ return Color.GRAY; }
-    },
-    GREEN{
-        public Color getColor(){ return Color.GREEN; }
-    },
-    LIGHT_GRAY{
-        public Color getColor(){ return Color.LIGHT_GRAY;}
-    },
-    MAGENTA{
-        public Color getColor(){ return Color.MAGENTA; }
-    },
-    ORANGE{
-        public Color getColor(){ return Color.ORANGE; }
-    },
-    PINK{
-        public Color getColor(){ return Color.PINK; }
-    },
-    RED{ public Color getColor(){ return Color.RED; }
-        },
-    WHITE{
-        public Color getColor(){ return Color.WHITE; }
-    },
-    YELLOW{
-        public Color getColor(){ return Color.YELLOW; }
+
+    BLACK(black),
+    BLUE(blue),
+    CYAN(cyan),
+    DARK_GRAY(darkGray),
+    GRAY(gray),
+    GREEN(green),
+    LIGHT_GRAY(lightGray),
+    MAGENTA(magenta),
+    ORANGE(orange),
+    PINK(pink),
+    RED(red),
+    WHITE(white),
+    YELLOW(yellow);
+
+    private Color color;
+
+    ShapeColor(Color color) {
+        this.color = color;
     }
+
+    public Color getColor() {
+        return color;
+    }
+
 }

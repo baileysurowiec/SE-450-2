@@ -2,13 +2,13 @@ package controller;
 
 import model.interfaces.IApplicationState;
 import view.EventName;
-import view.interfaces.IEventCallback;
 import view.interfaces.IUiModule;
 
 public class JPaintController implements IJPaintController {
     private final IUiModule uiModule;
     private final IApplicationState applicationState;
 
+// "toolbar actions"
     public JPaintController(IUiModule uiModule, IApplicationState applicationState) {
         this.uiModule = uiModule;
         this.applicationState = applicationState;
@@ -24,6 +24,13 @@ public class JPaintController implements IJPaintController {
         uiModule.addEvent(EventName.CHOOSE_PRIMARY_COLOR, () -> applicationState.setActivePrimaryColor());
         uiModule.addEvent(EventName.CHOOSE_SECONDARY_COLOR, () -> applicationState.setActiveSecondaryColor());
         uiModule.addEvent(EventName.CHOOSE_SHADING_TYPE, () -> applicationState.setActiveShadingType());
-        uiModule.addEvent(EventName.CHOOSE_MOUSE_MODE, () -> applicationState.setActiveStartAndEndPointMode());
+        uiModule.addEvent(EventName.CHOOSE_MOUSE_MODE, () -> applicationState.setActiveMouseMode());
+
+        // events for undo and redo
+        uiModule.addEvent(EventName.UNDO, () -> new DoUndo().run());
+        uiModule.addEvent(EventName.REDO, () -> new DoRedo().run());
+
+        // events for copy and paste later?
+
     }
 }

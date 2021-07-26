@@ -1,9 +1,8 @@
 package model.dialogs;
 
-import model.ShapeColor;
-import model.ShapeShadingType;
-import model.ShapeType;
-import model.MouseMode;
+import controller.DoRedo;
+import controller.DoUndo;
+import model.*;
 import model.interfaces.IApplicationState;
 import model.interfaces.IDialogProvider;
 import view.interfaces.IDialogChoice;
@@ -15,6 +14,7 @@ public class DialogProvider implements IDialogProvider {
     private final IDialogChoice<ShapeShadingType> chooseShadingTypeDialog;
     private final IDialogChoice<MouseMode> chooseStartAndEndPointModeDialog;
     private final IApplicationState applicationState;
+
 
     public DialogProvider(IApplicationState applicationState) {
         this.applicationState = applicationState;
@@ -49,4 +49,5 @@ public class DialogProvider implements IDialogProvider {
     public IDialogChoice<MouseMode> getChooseStartAndEndPointModeDialog() {
         return chooseStartAndEndPointModeDialog;
     }
+
 }

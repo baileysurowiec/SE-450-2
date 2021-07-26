@@ -31,8 +31,12 @@ public enum EventName {
 			return "CHOOSE MOUSE MODE";
 		}
 	},
-	UNDO,
-	REDO,
+	UNDO,// {
+//		public String toString(){ return "UNDO"; }
+//	},
+	REDO, //{
+//		public String toString(){ return "REDO"; }
+//	},
 	COPY,
 	PASTE,
 	DELETE,

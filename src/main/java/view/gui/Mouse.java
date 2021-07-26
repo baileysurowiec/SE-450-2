@@ -1,37 +1,64 @@
 package view.gui;
-import javax.swing.*;
+
+import controller.*;
+import model.MouseMode;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import controller.CreateShapesCommand;
+import model.persistence.ApplicationState;
+import model.shapes.MyShapesList;
+import view.interfaces.PaintCanvasBase;
 
-// work in progress
-// tracks mouse movement
-// somewhere needs e.getX() and e.getY() for x1,y1  x2,y2 pairs
-// application state should probably know about MouseListener?
 
-public class Mouse implements MouseListener {
-    // .addMouseListener(this);
-    MouseEvent e;
+public class Mouse extends MouseAdapter {
+    private Point startC;
+    private Point endC;
+    ApplicationState applicationState;
+    private MyShapesList myShapesList;  // this is my list of shapes that gets painted
+    public PaintCanvasBase pcb;
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
+
+    // responsive mouse object
+    // app state needs to know about mouse listener pass these into mouse object:
+    // add a mouse listener to the new paint canvas from Main, pass new vars into mouse to run
+    public Mouse(ApplicationState applicationState, MyShapesList myShapesList, PaintCanvasBase pcb){
+        this.applicationState = applicationState;
+        this.myShapesList = myShapesList;
+        this.pcb = pcb;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+//        System.out.println("mouse click");
+        startC = new Point(e.getX(), e.getY()); // sets on every mouse press
     }
 
+    // mouse handler creates instance of Create Shape on mouse released event
+    @Override
     public void mouseReleased(MouseEvent e){
+//        System.out.println("mouse release");
+        endC = new Point(e.getX(), e.getY());
+
+        if (applicationState.getActiveMouseMode().equals(MouseMode.DRAW)) {
+            myShapesList.clearSelected(); // start with an empty list
+            CreateShapesCommand newShape = new CreateShapesCommand(applicationState, startC, endC, myShapesList);
+            newShape.run();
+        }
+        else if(applicationState.getActiveMouseMode().equals(MouseMode.MOVE)){
+//            System.out.println("in move mouse mode");
+            MoveShapesCommand newMove = new MoveShapesCommand(applicationState, startC, endC, myShapesList);
+            newMove.run();
+        }
+        else if(applicationState.getActiveMouseMode().equals(MouseMode.SELECT)){
+            SelectShapesCommand newSelect = new SelectShapesCommand(myShapesList, startC, endC, applicationState);
+            newSelect.run();
+//            System.out.println("in select mouse mode");
+        }
+        else{
+            System.out.println("choose valid mouse mode");
+        }
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
 
 }

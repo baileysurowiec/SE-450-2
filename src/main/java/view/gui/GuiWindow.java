@@ -20,6 +20,7 @@ public class GuiWindow extends JFrame implements IGuiWindow {
     	= new Insets(5, 8, 5, 8);
     private final Map<EventName, JButton> eventButtons = new HashMap<>();
 
+    // the actual canvas the we see
     public GuiWindow(JComponent canvas){
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,6 +31,7 @@ public class GuiWindow extends JFrame implements IGuiWindow {
         JPanel window = createWindow();
         window.add(canvas, BorderLayout.CENTER);
 		validate();
+		// canvas.repaint();
     }
 
     @Override
