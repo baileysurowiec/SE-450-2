@@ -1,6 +1,7 @@
 package controller;
 
 import model.interfaces.IApplicationState;
+import model.persistence.ApplicationState;
 import view.EventName;
 import view.interfaces.IUiModule;
 
@@ -29,8 +30,14 @@ public class JPaintController implements IJPaintController {
         // events for undo and redo
         uiModule.addEvent(EventName.UNDO, () -> new DoUndo().run());
         uiModule.addEvent(EventName.REDO, () -> new DoRedo().run());
-
-        // events for copy and paste later?
+        // delete
+        uiModule.addEvent(EventName.DELETE, () -> new DeleteShapeCommand().run());
+        // copy & paste
+        uiModule.addEvent(EventName.COPY, () -> new CopyShapesCommand().run());
+        uiModule.addEvent(EventName.PASTE, () -> new PasteShapesCommand().run());
+        // group & ungroup
+        uiModule.addEvent(EventName.GROUP, () -> new GroupShapesCommand().run());
+        uiModule.addEvent(EventName.UNGROUP, () -> new UnGroupShapesCommand().run());
 
     }
 }

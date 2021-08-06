@@ -1,8 +1,8 @@
 package model.shapes;
 
+import model.ShapeColor;
+import model.ShapeShadingType;
 import model.ShapeType;
-import model.persistence.ApplicationState;
-
 import java.awt.*;
 import java.util.Stack;
 
@@ -12,35 +12,48 @@ import java.util.Stack;
 //  dimensions : calculated here
 //  point sets and gets here
 public class MakeShape {
-    public ShapeConfigs shapeConfigs;
     public Point startC;
     public Point endC;
+    public Point pasteStartC;
+    public Point pasteEndC;
+
     public Boolean shapeSelected = false;
     public Boolean moved = false;
+    public Boolean pasted = false;
+    public Boolean deleted = false;
+    public Boolean grouped = false;
+
+    public ShapeColor primaryColor;
+    public ShapeColor secondaryColor;
+    public ShapeType shapeType;
+    public ShapeShadingType shadingType;
 
     public Stack<Point> movedUndoStartStack = new Stack<>();
     public Stack<Point> movedUndoEndStack = new Stack<>();
     public Stack<Point> movedRedoStartStack = new Stack<>();
     public Stack<Point> movedRedoEndStack = new Stack<>();
-    ApplicationState applicationState;
 
-    public MakeShape(ApplicationState applicationState, Point startC, Point endC){
-        this.applicationState = applicationState;
-        this.shapeConfigs = applicationState.getShapeSettings();
+    TrianglePointsStrategy trianglePointsStrategy;
+
+    public MakeShape(Point startC, Point endC, ShapeType shapeType, ShapeShadingType shadingType, ShapeColor primaryColor, ShapeColor secondaryColor){
         this.startC = startC;
         this.endC = endC;
+        this.shapeType = shapeType;
+        this.shadingType = shadingType;
+        this.primaryColor = primaryColor;
+        this.secondaryColor = secondaryColor;
     }
 
     public void draw(Graphics2D g){
-        if(shapeConfigs.getShapeType().equals(ShapeType.RECTANGLE)){
+        if(shapeType.equals(ShapeType.RECTANGLE)){
             Rectangle rectangle = new Rectangle(this);
             rectangle.draw(g);
         }
-        else if(shapeConfigs.getShapeType().equals(ShapeType.TRIANGLE)){
+        else if(shapeType.equals(ShapeType.TRIANGLE)){
             Triangle triangle = new Triangle(this);
             triangle.draw(g);
         }
-        else if(shapeConfigs.getShapeType().equals(ShapeType.ELLIPSE)){
+        else if (shapeType.equals(ShapeType.ELLIPSE)){
             Ellipse ellipse = new Ellipse(this);
             ellipse.draw(g);
         }
@@ -72,41 +85,30 @@ public class MakeShape {
         return height;
     }
 
-    public void shapeSelected(){
-        shapeSelected = !shapeSelected;
-    }
-    public boolean isSelected(){
-        return shapeSelected;
-    }
-
-    public void setStartC(Point startC){
-        this.startC.x = startC.x;
-        this.startC.y = startC.y;
-        movedUndoStartStack.push(this.startC);
-    }
+    public void setStartC(Point startC){ this.startC = startC; }
     public Point getStartC(){
         return startC;
     }
-    public void setEndC(Point endC){
-        this.endC.x = endC.x;
-        this.endC.y = endC.y;
-        movedUndoEndStack.push(this.endC);
-    }
+    public void setEndC(Point endC){ this.endC = endC; }
     public Point getEndC(){
         return endC;
     }
 
+    public void setpasteStartC(Point s){
+        pasteStartC = s;
+    }
+    public void setpasteEndC(Point e){ pasteEndC = e; }
+    public Point getPasteStartC(){
+        return pasteStartC;
+    }
+    public Point getPasteEndC(){
+        return pasteEndC;
+    }
 
-    public Stack<Point> getMovedUndoStartStack(){
-        return movedUndoStartStack;
+    public TrianglePointsStrategy getTrianglePointsStrategy(){
+        return trianglePointsStrategy;
     }
-    public Stack<Point> getMovedUndoEndStack(){
-        return movedUndoEndStack;
-    }
-    public Stack<Point> getMovedRedoStartStack(){
-        return movedRedoStartStack;
-    }
-    public Stack<Point> getMovedRedoEndStack(){
-        return movedRedoEndStack;
+    public void setTrianglePointsStrategy(TrianglePointsStrategy tps){
+        trianglePointsStrategy = tps;
     }
 }

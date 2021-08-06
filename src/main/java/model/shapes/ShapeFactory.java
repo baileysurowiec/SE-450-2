@@ -8,26 +8,20 @@ import model.interfaces.IShape;
     // called from CreateShapesCommand
 
 public class ShapeFactory {
-
-    public IShape createShapeFromFactory(MakeShape makeShape){
-//        IShadingStrategy iShadingStrategy;
-        IShape newShape = null;
-        if(makeShape.shapeConfigs.getShapeType().equals(ShapeType.RECTANGLE)){
-            newShape = new Rectangle(makeShape);
-//            System.out.println("shape factory draw rectangle");
+    public static IShape createShape(MakeShape makeShape){
+        if(makeShape.shapeType.equals(ShapeType.RECTANGLE)){
+            return new Rectangle(makeShape);
         }
-        else if (makeShape.shapeConfigs.getShapeType().equals(ShapeType.TRIANGLE)){
-            newShape = new Triangle(makeShape);
-//            System.out.println("shape factory draw triangle");
+        else if(makeShape.shapeType.equals(ShapeType.TRIANGLE)){
+            return new Triangle(makeShape);
         }
-        else if(makeShape.shapeConfigs.getShapeType().equals(ShapeType.ELLIPSE)){
-            newShape = new Ellipse(makeShape);
-//            System.out.println("shape factory draw ellipse");
+        else if(makeShape.shapeType.equals(ShapeType.ELLIPSE)){
+            return new Ellipse(makeShape);
         }
         else{
             System.out.println("Pick a shape to draw");
+            return null;
         }
-        return newShape;
     }
 
 }

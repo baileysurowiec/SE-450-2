@@ -6,7 +6,6 @@ import model.dialogs.DialogProvider;
 import model.interfaces.IApplicationState;
 import model.interfaces.IDialogProvider;
 import model.shapes.MyShapesList;
-import model.shapes.ShapeConfigs;
 import view.interfaces.IUiModule;
 
 // lots of sets and gets here
@@ -20,7 +19,6 @@ public class ApplicationState implements IApplicationState {
     private ShapeColor activeSecondaryColor;
     private ShapeShadingType activeShapeShadingType;
     private MouseMode activeMouseMode;
-    private MyShapesList myShapesList;
 
     public ApplicationState(IUiModule uiModule) {
         this.uiModule = uiModule;
@@ -53,17 +51,6 @@ public class ApplicationState implements IApplicationState {
         activeMouseMode = uiModule.getDialogResponse(dialogProvider.getChooseStartAndEndPointModeDialog());
     }
 
-
-    @Override
-    public ShapeConfigs getShapeSettings() {
-        ShapeConfigs shapeConfigs = new ShapeConfigs();
-        shapeConfigs.setPrimaryColor(activePrimaryColor);
-        shapeConfigs.setSecondaryColor(activeSecondaryColor);
-        shapeConfigs.setShapeType(activeShapeType);
-        shapeConfigs.setShadingType(activeShapeShadingType);
-        return shapeConfigs;
-    }
-
     @Override
     public ShapeType getActiveShapeType() {
         return activeShapeType;
@@ -82,7 +69,6 @@ public class ApplicationState implements IApplicationState {
     }
     @Override
     public MouseMode getActiveMouseMode() { return activeMouseMode; }
-
 
     private void setDefaults() {
         activeShapeType = ShapeType.RECTANGLE;

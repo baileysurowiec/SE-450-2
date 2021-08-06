@@ -2,15 +2,12 @@ package model.shapes;
 
 import model.ShapeShadingType;
 import model.interfaces.IShape;
-
 import java.awt.*;
 
 public class Rectangle implements IShape {
-
     private Color color;
     private Color secondaryColor;
     MakeShape makeShape;
-//    private boolean isSelected;
 
     // rectangle object
     Rectangle(MakeShape makeShape) {
@@ -26,18 +23,17 @@ public class Rectangle implements IShape {
         int x = (int) makeShape.getMin().getX();
         int y = (int) makeShape.getMin().getY();
 
-        color = makeShape.shapeConfigs.getPrimaryColor();
-        secondaryColor = makeShape.shapeConfigs.getSecondaryColor();
+        color = makeShape.primaryColor.getColor();
+        secondaryColor = makeShape.secondaryColor.getColor();
 
         // outlined
-        if (makeShape.shapeConfigs.getShadingType().equals(ShapeShadingType.OUTLINE)){
+        if(makeShape.shadingType.equals(ShapeShadingType.OUTLINE)){
             g.setColor(color);
             g.setStroke(new BasicStroke(5));
             g.drawRect(x, y, w, h);
-
         }
         // filled in
-        else if(makeShape.shapeConfigs.getShadingType().equals(ShapeShadingType.FILLED_IN)){
+        else if(makeShape.shadingType.equals(ShapeShadingType.FILLED_IN)){
             g.setColor(color);
             g.drawRect(x, y, w, h);
             g.fillRect(x, y, w, h);
@@ -45,12 +41,11 @@ public class Rectangle implements IShape {
         // outlined and filled in
         else{
             g.setStroke(new BasicStroke(5));
-            g.setColor(secondaryColor);
-            g.fillRect(x, y, w, h);
             g.setColor(color);
+            g.fillRect(x, y, w, h);
+            g.setColor(secondaryColor);
             g.drawRect(x, y, w, h);
         }
-//        System.out.println("drawing rectangle in Rectangle");
     }
 
     @Override

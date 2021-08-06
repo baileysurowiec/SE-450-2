@@ -1,5 +1,7 @@
 package controller;
+import model.ShapeType;
 import model.interfaces.IShape;
+import model.shapes.TrianglePointsStrategy;
 import view.gui.PaintCanvas;
 import view.interfaces.PaintCanvasBase;
 import java.awt.*;
@@ -18,16 +20,12 @@ public class DrawShapes{
     }
 
     public void drawShapeLists(){
-//        pc.repaint();
-//        Graphics2D g = (Graphics2D) g2d;
         Graphics2D g = pc.getGraphics2D();
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, pc.getWidth(), pc.getHeight());
         for (IShape shape : myShapesList){
             shape.draw(g);
-            if (shape.getMadeShape().shapeSelected) {
-                drawSelected(shape);
-            }
+            if (shape.getMadeShape().shapeSelected) { drawSelected(shape); }
         }
     }
 
@@ -40,8 +38,16 @@ public class DrawShapes{
         int y = (int) shape.getMadeShape().getMin().getY() -5;
         int w = shape.getMadeShape().getWidth() + 10;
         int h = shape.getMadeShape().getHeight() + 10;
-        g.drawRect(x, y, w, h);
+
+        if(shape.getMadeShape().shapeType.equals(ShapeType.RECTANGLE)){
+            g.drawRect(x, y, w, h);
+        }
+        else if(shape.getMadeShape().shapeType.equals(ShapeType.TRIANGLE)){
+            TrianglePointsStrategy tps = shape.getMadeShape().getTrianglePointsStrategy();
+            tps.drawSelectedTriangle(shape, g);
+        }
+        else if(shape.getMadeShape().shapeType.equals(ShapeType.ELLIPSE)){
+            g.drawOval(x, y, w, h);
+        }
     }
-
-
 }

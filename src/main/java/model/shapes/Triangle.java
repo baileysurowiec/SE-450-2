@@ -1,8 +1,6 @@
 package model.shapes;
 
-import model.ShapeShadingType;
 import model.interfaces.IShape;
-
 import java.awt.*;
 
 public class Triangle implements IShape {
@@ -18,10 +16,18 @@ public class Triangle implements IShape {
         int sY = (int) makeShape.getStartC().getY();
         int eX = (int) makeShape.getEndC().getX();
         int eY = (int) makeShape.getEndC().getY();
+
         if (sX < eX && sY> eY || sX > eX && sY < eY){
             this.trianglePointsStrategy = new RightTriangleStrategy();
         }
-        else{ this.trianglePointsStrategy = new LeftTriangleStrategy(); }
+        else{
+            this.trianglePointsStrategy = new LeftTriangleStrategy();
+        }
+        makeShape.setTrianglePointsStrategy(trianglePointsStrategy);
+    }
+
+    public TrianglePointsStrategy getTrianglePointsStrategy(){
+        return trianglePointsStrategy;
     }
 
     @Override
@@ -35,4 +41,5 @@ public class Triangle implements IShape {
     public MakeShape getMadeShape() {
         return makeShape;
     }
+
 }

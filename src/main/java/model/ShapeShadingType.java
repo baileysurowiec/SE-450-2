@@ -1,7 +1,5 @@
 package model;
 
-import java.awt.*;
-
 
 public enum ShapeShadingType {
     FILLED_IN,

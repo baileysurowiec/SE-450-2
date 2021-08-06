@@ -1,21 +1,17 @@
 package controller;
 
-import model.persistence.ApplicationState;
 import model.interfaces.IShape;
 import model.shapes.MyShapesList;
-
 import java.awt.*;
 import java.util.ArrayList;
 
 public class MoveShapesCommand implements ICommand, IUndoable{
-    ApplicationState applicationState;
     private Point startC;
     private Point endC;
     private MyShapesList myShapesList;
-    public ArrayList<IShape> moveSelected;
+    private ArrayList<IShape> moveSelected;
 
-    public MoveShapesCommand(ApplicationState applicationState, Point startC, Point endC, MyShapesList myShapesList){
-        this.applicationState = applicationState;
+    public MoveShapesCommand(Point startC, Point endC, MyShapesList myShapesList){
         this.startC = startC;
         this.endC = endC;
         this.myShapesList = myShapesList;
@@ -40,88 +36,67 @@ public class MoveShapesCommand implements ICommand, IUndoable{
         Point offset = getOffset();
 
         for (IShape moveShape: moveSelected) {
-//            if (moveShape.getMadeShape().moved == false){ // initial shape drawn coords pushed to stack
-//                Point s = moveShape.getMadeShape().getStartC();
-//                Point e = moveShape.getMadeShape().getEndC();
-//                myShapesList.movedUndoStartStack.push(s);
-//                myShapesList.movedUndoEndStack.push(e);
-//            }
-            if (moveShape.getMadeShape().shapeSelected) {
-                // shape has been moved at least once before, move shape and push coords to stack
-                moveShape.getMadeShape().moved = true;
-                int moveX = (int) offset.getX();
-                int moveY = (int) offset.getY();
-                int xs = (int) moveShape.getMadeShape().getStartC().getX() + moveX;
-                int ys = (int) moveShape.getMadeShape().getStartC().getY() + moveY;
-                int xe = (int) moveShape.getMadeShape().getEndC().getX() + moveX;
-                int ye = (int) moveShape.getMadeShape().getEndC().getY() + moveY;
-                Point newStart = new Point(xs, ys);
-                Point newEnd = new Point(xe, ye);
-                moveShape.getMadeShape().setStartC(newStart);
-                moveShape.getMadeShape().setEndC(newEnd);
-
-                // stack in MyShapesList
-                myShapesList.movedUndoStartStack.push(newStart);
-                myShapesList.movedUndoEndStack.push(newEnd);
-            }
+            moveShape.getMadeShape().moved = true;
+            int moveX = (int) offset.getX();
+            int moveY = (int) offset.getY();
+            Point s = moveShape.getMadeShape().getStartC();
+            Point e = moveShape.getMadeShape().getEndC();
+            // push original moved coords to stack for undo
+            moveShape.getMadeShape().movedUndoStartStack.push(s);
+            moveShape.getMadeShape().movedUndoEndStack.push(e);
+            // create new points
+            int xs = (int) s.getX() + moveX;
+            int ys = (int) s.getY() + moveY;
+            int xe = (int) e.getX() + moveX;
+            int ye = (int) e.getY() + moveY;
+            Point newStart = new Point(xs, ys);
+            Point newEnd = new Point(xe, ye);
+            // reset shape start/end to include moved offset
+            moveShape.getMadeShape().setStartC(newStart);
+            moveShape.getMadeShape().setEndC(newEnd);
         }
         myShapesList.drawMyShapes(); // redraw the shape list
         CommandHistory.add(this);
-
     }
 
     @Override
     public void undo() {
-//        System.out.println("undo in move");
-        if(myShapesList.movedUndoStartStack.isEmpty() || myShapesList.movedUndoEndStack.isEmpty()){ System.out.println("Nothing to undo"); }
-        for (IShape undoShape: myShapesList.getSelectedShapeList()){
-//            if(undoShape.getMadeShape().movedUndoStartStack.isEmpty() || undoShape.getMadeShape().movedUndoEndStack.isEmpty()){
-//                System.out.println("Nothing to undo");
-//            }
-            if (undoShape.getMadeShape().moved) {
-//                undoShape.getMadeShape().moved = false;
-                // stack in MakeShape
-//               Point start = undoShape.getMadeShape().movedUndoStartStack.pop();
-//               undoShape.getMadeShape().movedRedoStartStack.push(start);
-//               Point end = undoShape.getMadeShape().movedUndoEndStack.pop();
-//               undoShape.getMadeShape().movedRedoEndStack.push(end);
-
-               // stack in MyShapesList
-                Point start = myShapesList.movedUndoStartStack.pop();
-                myShapesList.movedRedoStartStack.push(start);
-                Point end = myShapesList.movedUndoEndStack.pop();
-                myShapesList.movedRedoEndStack.push(end);
-                undoShape.getMadeShape().setStartC(start);
-                undoShape.getMadeShape().setEndC(end);
+        for (IShape undoShape: moveSelected){
+            if( undoShape.getMadeShape().movedUndoStartStack.isEmpty() || undoShape.getMadeShape().movedUndoEndStack.isEmpty() ){
+                System.out.println("Nothing to undo");
             }
+            undoShape.getMadeShape().moved = false;
+
+            Point start = undoShape.getMadeShape().movedUndoStartStack.pop(); // previous moved coords
+            Point s = undoShape.getMadeShape().getStartC();
+            undoShape.getMadeShape().movedRedoStartStack.push(s); // store current
+            Point end = undoShape.getMadeShape().movedUndoEndStack.pop();
+            Point e = undoShape.getMadeShape().getEndC();
+            undoShape.getMadeShape().movedRedoEndStack.push(e);
+
+            undoShape.getMadeShape().setStartC(start); // new coords set from prev
+            undoShape.getMadeShape().setEndC(end);
         }
         myShapesList.drawMyShapes();
     }
 
     @Override
     public void redo() {
-        if(myShapesList.movedRedoStartStack.isEmpty() || myShapesList.movedRedoEndStack.isEmpty()){ System.out.println("Nothing to redo"); }
-//        System.out.println("redo in move");
-        for (IShape redoShape: myShapesList.getSelectedShapeList()) {
-//            if(redoShape.getMadeShape().movedRedoStartStack.isEmpty() || redoShape.getMadeShape().movedRedoEndStack.isEmpty()){
-//                System.out.println("Nothing to redo");
-//            }
-            if (redoShape.getMadeShape().moved) {
-//                redoShape.getMadeShape().moved = true;
-                // stack in Make Shape
-//                Point start = redoShape.getMadeShape().movedRedoStartStack.pop();
-//                redoShape.getMadeShape().movedUndoStartStack.push(start);
-//                Point end = redoShape.getMadeShape().movedRedoEndStack.pop();
-//                redoShape.getMadeShape().movedUndoEndStack.push(end);
-
-                // Stack in MyShapesList
-                Point start = myShapesList.movedRedoStartStack.pop();
-                myShapesList.movedUndoStartStack.push(start);
-                Point end = myShapesList.movedRedoEndStack.pop();
-                myShapesList.movedUndoEndStack.push(end);
-                redoShape.getMadeShape().setStartC(start);
-                redoShape.getMadeShape().setEndC(end);
+        for (IShape redoShape: moveSelected) {
+            if(redoShape.getMadeShape().movedRedoStartStack.isEmpty() || redoShape.getMadeShape().movedRedoEndStack.isEmpty()){
+                System.out.println("Nothing to redo");
             }
+            redoShape.getMadeShape().moved = true;
+
+            Point start = redoShape.getMadeShape().movedRedoStartStack.pop();
+            Point s = redoShape.getMadeShape().getStartC();
+            redoShape.getMadeShape().movedUndoStartStack.push(s);
+            Point end = redoShape.getMadeShape().movedRedoEndStack.pop();
+            Point e = redoShape.getMadeShape().getEndC();
+            redoShape.getMadeShape().movedUndoEndStack.push(e);
+
+            redoShape.getMadeShape().setStartC(start);
+            redoShape.getMadeShape().setEndC(end);
         }
         myShapesList.drawMyShapes();
     }
