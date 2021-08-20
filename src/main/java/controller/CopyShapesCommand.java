@@ -1,29 +1,54 @@
 package controller;
 
 import model.interfaces.IShape;
+import model.shapes.Group;
+import model.shapes.MakeShape;
 import java.awt.*;
-import static model.shapes.MyShapesList.copyShapeList;
-import static model.shapes.MyShapesList.selectedShapeList;
+import java.util.ArrayList;
+import static model.shapes.MyShapesList.*;
 
 public class CopyShapesCommand implements ICommand{
-    CopyShapesCommand(){}
 
     @Override
     public void run() {
         copyShapeList.clear();
+        copyGroupList.clear();
         int offset = -50;
-        for (IShape copyShape: selectedShapeList){
+
+        ArrayList<IShape> copyClipboard = new ArrayList<>();
+//        for(IShape shape : selectedShapeList) {
+//            if(!shape.isGroup()) { copyClipboard.add(shape); }
+//        }
+        copyClipboard.addAll(selectedShapeList);
+        for (IShape copyShape: copyClipboard){
+            MakeShape m = copyShape.getMadeShape();
             // setting offset for copied shapes
-            int xs = (int) copyShape.getMadeShape().getStartC().getX() + offset;
-            int ys = (int) copyShape.getMadeShape().getStartC().getY() + offset;
-            int xe = (int) copyShape.getMadeShape().getEndC().getX() + offset;
-            int ye = (int) copyShape.getMadeShape().getEndC().getY() + offset;
+            int xs = (int) m.getStartC().getX() + offset;
+            int ys = (int) m.getStartC().getY() + offset;
+            int xe = (int) m.getEndC().getX() + offset;
+            int ye = (int) m.getEndC().getY() + offset;
             Point newStart = new Point(xs, ys);
             Point newEnd = new Point(xe, ye);
-            copyShape.getMadeShape().setpasteStartC(newStart);
-            copyShape.getMadeShape().setpasteEndC(newEnd);
-
+            m.setPasteStartC(newStart);
+            m.setPasteEndC(newEnd);
             copyShapeList.add(copyShape);
+        }
+        ArrayList<Group> copyGroupClipboard = new ArrayList<>();
+        copyGroupClipboard.addAll(selectedGroups);
+        for(Group group : copyGroupClipboard){
+            for (IShape copyShape: group.getGroupedShapes()){
+            // setting offset for copied shapes
+                MakeShape m = copyShape.getMadeShape();
+                int xs = (int) m.getStartC().getX() + offset;
+                int ys = (int) m.getStartC().getY() + offset;
+                int xe = (int) m.getEndC().getX() + offset;
+                int ye = (int) m.getEndC().getY() + offset;
+                Point newStart = new Point(xs, ys);
+                Point newEnd = new Point(xe, ye);
+                m.setPasteStartC(newStart);
+                m.setPasteEndC(newEnd);
+            }
+            copyGroupList.add(group);
         }
     }
 }

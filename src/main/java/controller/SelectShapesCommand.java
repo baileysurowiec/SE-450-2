@@ -1,9 +1,11 @@
 package controller;
 
 import model.interfaces.IShape;
+import model.shapes.Group;
 import model.shapes.MyShapesList;
 import java.awt.*;
 import java.util.ArrayList;
+import static model.shapes.MyShapesList.*;
 
 public class SelectShapesCommand implements ICommand{
     private MyShapesList myShapesList;
@@ -23,7 +25,7 @@ public class SelectShapesCommand implements ICommand{
     @Override
     public void run() {
         myShapesList.clearSelected();
-        moveToSelected = myShapesList.getMyShapeList();
+        moveToSelected = getMyShapeList();
             // find mouse bounding box
         int mouseMinX = Math.min((int) startC.getX(), (int) endC.getX());
         int mouseMinY = Math.min((int) startC.getY(), (int) endC.getY());
@@ -31,17 +33,23 @@ public class SelectShapesCommand implements ICommand{
         int mouseBoundsHeight = Math.abs((int) startC.getY() - (int) endC.getY());
             // if in bounding box add selected shape(s) to selected shape list
         for (IShape iShape : moveToSelected) {
-            int shapeMinX = (int) Math.min(iShape.getMadeShape().getStartC().getX(), iShape.getMadeShape().getEndC().getX() - 5);
-            int shapeMinY = (int) Math.min(iShape.getMadeShape().getStartC().getY(), iShape.getMadeShape().getEndC().getY() - 5);
-            int shapeWidth = iShape.getMadeShape().getWidth() + 10;
-            int shapeHeight = iShape.getMadeShape().getHeight() + 10;
+                int shapeMinX = (int) Math.min(iShape.getMadeShape().getStartC().getX(), iShape.getMadeShape().getEndC().getX() - 5);
+                int shapeMinY = (int) Math.min(iShape.getMadeShape().getStartC().getY(), iShape.getMadeShape().getEndC().getY() - 5);
+                int shapeWidth = iShape.getMadeShape().getWidth() + 10;
+                int shapeHeight = iShape.getMadeShape().getHeight() + 10;
                 // collision detection
-            if (shapeMinX < mouseMinX + mouseBoundsWidth && shapeMinX + shapeWidth > mouseMinX
-                    && shapeMinY < mouseMinY + mouseBoundsHeight && shapeMinY + shapeHeight > mouseMinY) {
-                iShape.getMadeShape().shapeSelected = true;
-                myShapesList.addToSelected(iShape);
+                if (shapeMinX < mouseMinX + mouseBoundsWidth && shapeMinX + shapeWidth > mouseMinX
+                        && shapeMinY < mouseMinY + mouseBoundsHeight && shapeMinY + shapeHeight > mouseMinY) {
+                    iShape.getMadeShape().shapeSelected = true;
+                    selectedShapeList.add(iShape);
+                }
             }
+
+        for(Group g : myGroupsList){
+            g.selectGroup(mouseMinX, mouseMinY, mouseBoundsWidth, mouseBoundsHeight);
+            if(g.groupSelected){ selectedGroups.add(g); }
         }
-        myShapesList.drawMyShapes();
+
+        drawMyShapes();
     }
 }

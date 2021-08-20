@@ -4,23 +4,22 @@ import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Stack;
+import static model.shapes.MyShapesList.*;
 
 // being a shape class:
 // responsible for
 //  shape configurations : colors, shape type, and shading type
 //  dimensions : calculated here
 //  point sets and gets here
-public class MakeShape {
+public class MakeShape {//implements Cloneable{ //IPrototype {
     public Point startC;
     public Point endC;
     public Point pasteStartC;
     public Point pasteEndC;
 
     public Boolean shapeSelected = false;
-    public Boolean moved = false;
-    public Boolean pasted = false;
-    public Boolean deleted = false;
     public Boolean grouped = false;
 
     public ShapeColor primaryColor;
@@ -33,7 +32,19 @@ public class MakeShape {
     public Stack<Point> movedRedoStartStack = new Stack<>();
     public Stack<Point> movedRedoEndStack = new Stack<>();
 
+    public Stack<Group> groupHistory = new Stack<>();
+    public Stack<Group> undoGroupHistory = new Stack<>();
+
+//    public Group group;
+    public ArrayList<Group> groupsList = new ArrayList<>();
+    public ArrayList<Group> removedgroupList = new ArrayList<>();
+
+    public Group group;
+
+    public int soloShapeCount;
+
     TrianglePointsStrategy trianglePointsStrategy;
+    public int numberOfGroups = 0;
 
     public MakeShape(Point startC, Point endC, ShapeType shapeType, ShapeShadingType shadingType, ShapeColor primaryColor, ShapeColor secondaryColor){
         this.startC = startC;
@@ -59,6 +70,9 @@ public class MakeShape {
         }
     }
 
+//    public Group2trial getShapeGroup(){
+//        return group;
+//    }
 
     // find starting coords
     // need leftmost(least) X,Y coords for start of shape, rightmost(highest) for end of shape
@@ -94,10 +108,10 @@ public class MakeShape {
         return endC;
     }
 
-    public void setpasteStartC(Point s){
+    public void setPasteStartC(Point s){
         pasteStartC = s;
     }
-    public void setpasteEndC(Point e){ pasteEndC = e; }
+    public void setPasteEndC(Point e){ pasteEndC = e; }
     public Point getPasteStartC(){
         return pasteStartC;
     }
@@ -111,4 +125,79 @@ public class MakeShape {
     public void setTrianglePointsStrategy(TrianglePointsStrategy tps){
         trianglePointsStrategy = tps;
     }
+
+    public void increaseGroup(){ numberOfGroups++; }
+    public void decreaseGroup(){ numberOfGroups--; }
+
+//    public Boolean isGrouped(){
+//        for(Group group: myGroupsList){
+//            group.getGroupedShapes().contains(this);
+//        }
+////        return myGroupsList.contains(this);
+//    }
+//    public void setShapeGroup(){
+////        groupsList.add(group);
+//        if(groupsList.size() > 0){
+//            soloShapeCount--;
+//            this.group = groupsList.get(groupsList.size()-1);
+//        }// sets the active group to the last one in the list
+//        else{
+//            soloShapeCount++;
+//            group = null;
+//        }
+//    }
+
+    public void addToGroupList(Group group){
+//        if(!groupsList.isEmpty()) {
+//            if (groupsList.contains(group)) {
+//                grouped = false;
+//            } else {
+//                grouped = true;
+//            }
+//        }
+        groupsList.add(group);
+    }
+
+//    public void undoGroup(){
+//        if(!groupsList.isEmpty()) {
+//            removedgroupList.add(groupsList.remove(groupsList.size() - 1));
+////            soloShapeCount--;
+//        }
+//        setShapeGroup();
+//    }
+
+//    public void redoGroup(){
+////        if(soloShapeCount == 0){
+//        if(!removedgroupList.isEmpty()) {
+//            groupsList.add(removedgroupList.remove(removedgroupList.size() - 1));
+////            setShapeGroup();
+//        }//}
+//        setShapeGroup();
+//    }
+
+    public Boolean hasGroup(){
+        return this.group != null;
+    }
+
+    public Boolean uniqueGroups(){
+        for(Group g: groupsList){
+            for(Group g2: groupsList){
+                if(!g.equals(g2)){
+                   return true;
+                }
+            }
+        }
+        return false;
+    }
+
+//    public int groupCount(){
+//        int count = 0;
+//        for(Group g: myGroupsList){
+//            if(g.getGroupedShapes().contains(this)){
+//                count++;
+//            }
+//        }
+//        return count;
+//    }
+
 }

@@ -1,5 +1,6 @@
 package view.gui;
 
+import controller.ICommand;
 import controller.state.DrawState;
 import controller.state.IState;
 import controller.state.MoveState;
@@ -19,6 +20,7 @@ public class Mouse extends MouseAdapter {
     private MyShapesList myShapesList;  // this is my list of shapes that gets painted
     public PaintCanvasBase pcb;
     private IState state;
+    private ICommand command;
 
     // responsive mouse object
     // app state needs to know about mouse listener pass these into mouse object:
@@ -36,9 +38,7 @@ public class Mouse extends MouseAdapter {
         else if(applicationState.getActiveMouseMode().equals(MouseMode.MOVE)){
             state = new MoveState();
         }
-        else{
-            state = new SelectState();
-        }
+        else{ state = new SelectState(); }
     }
 
     @Override
@@ -51,8 +51,10 @@ public class Mouse extends MouseAdapter {
     @Override
     public void mouseReleased(MouseEvent e){
         endC = new Point(e.getX(), e.getY());
+//        state.setDrawSettings(applicationState);
         state.doState(applicationState, startC, endC, myShapesList);
+        command = state.getCommand();
+        command.run();
     }
-
 
 }

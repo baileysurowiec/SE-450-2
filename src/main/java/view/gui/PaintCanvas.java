@@ -1,5 +1,6 @@
 package view.gui;
 
+import controller.DrawShapes;
 import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 
@@ -17,6 +18,7 @@ public class PaintCanvas extends PaintCanvasBase {
      * It you want to force a paint event, call aPaintCanvas.repaint()
      */
     public void paint(Graphics g) {
+
         super.paint(g);
         System.out.println("Time to repaint");
     }

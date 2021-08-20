@@ -12,6 +12,7 @@ public class LeftTriangleStrategy implements TrianglePointsStrategy{
     public void drawTriangle(MakeShape makeShape, Graphics2D g) {
         color = makeShape.primaryColor.getColor();
         secondaryColor = makeShape.secondaryColor.getColor();
+//        System.out.println(color.toString());
 
         int sX = (int) makeShape.getStartC().getX();
         int eX = (int) makeShape.getEndC().getX();

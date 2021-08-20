@@ -4,10 +4,14 @@ import model.ShapeShadingType;
 import model.interfaces.IShape;
 import java.awt.*;
 
+import static model.shapes.MyShapesList.groupsList;
+import static model.shapes.MyShapesList.myGroupsList;
+
 public class Rectangle implements IShape {
     private Color color;
     private Color secondaryColor;
     MakeShape makeShape;
+    private Boolean grouped = false;
 
     // rectangle object
     Rectangle(MakeShape makeShape) {
@@ -16,8 +20,8 @@ public class Rectangle implements IShape {
 
     // draw, fill, stroke, color
     @Override
-    public void draw(Graphics g2d) {
-        Graphics2D g = (Graphics2D) g2d;
+    public void draw(Graphics graphics) {
+        Graphics2D g = (Graphics2D) graphics;
         int h = makeShape.getHeight();
         int w = makeShape.getWidth();
         int x = (int) makeShape.getMin().getX();
@@ -47,10 +51,46 @@ public class Rectangle implements IShape {
             g.drawRect(x, y, w, h);
         }
     }
+    @Override
+    public Boolean isSelected(){
+        return makeShape.shapeSelected;
+    }
 
     @Override
     public MakeShape getMadeShape() {
         return makeShape;
+    }
+
+//    @Override
+//    public Group2trial getGroup(){
+//        return null;
+//    }
+
+    @Override
+    public Boolean isGroup() {
+        return false;
+//        int count = 0;
+//        for(Group g : makeShape.groupsList){
+//            for(Group g2 : makeShape.groupsList){
+//                if(g.equals(g2)){
+//                    count ++;
+//                }
+//            }
+//        }
+//        if(makeShape.groupsList.size() == count){
+//            return false;
+//        }
+//        return true;
+//        if(makeShape.uniqueGroups() == false){
+//            return true;
+//        }
+//        return false;
+//        for(Group group: myGroupsList){
+//            if(group.getGroupedShapes().contains(this)){
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
 }

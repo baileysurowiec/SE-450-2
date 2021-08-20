@@ -13,6 +13,7 @@ public class RightTriangleStrategy implements TrianglePointsStrategy{
         color = makeShape.primaryColor.getColor();
         secondaryColor = makeShape.secondaryColor.getColor();
 
+//        System.out.println(color.toString());
         int sX = (int) makeShape.getStartC().getX();
         int eX = (int) makeShape.getEndC().getX();
         int sY = (int) makeShape.getStartC().getY();

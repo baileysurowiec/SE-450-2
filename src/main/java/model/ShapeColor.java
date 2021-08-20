@@ -1,12 +1,10 @@
 package model;
 
 import java.awt.*;
-
 import static java.awt.Color.*;
 
 // watch tutorial vid from discord chat
 public enum ShapeColor {
-
     BLACK(black),
     BLUE(blue),
     CYAN(cyan),

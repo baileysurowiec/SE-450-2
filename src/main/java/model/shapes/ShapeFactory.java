@@ -1,27 +1,23 @@
 package model.shapes;
-//new
 
 import model.ShapeType;
 import model.interfaces.IShape;
 
-// here is where the create a shape is (new "shapetype")
+// here is where the create a shape is (new "shape type")
     // called from CreateShapesCommand
-
+// parameterized factory method
 public class ShapeFactory {
-    public static IShape createShape(MakeShape makeShape){
-        if(makeShape.shapeType.equals(ShapeType.RECTANGLE)){
+    public static IShape createShape(MakeShape makeShape) {
+        ShapeType shape = makeShape.shapeType;
+
+        if(shape.equals(ShapeType.RECTANGLE)){
             return new Rectangle(makeShape);
         }
-        else if(makeShape.shapeType.equals(ShapeType.TRIANGLE)){
+        else if(shape.equals(ShapeType.TRIANGLE)){
             return new Triangle(makeShape);
         }
-        else if(makeShape.shapeType.equals(ShapeType.ELLIPSE)){
+        else{
             return new Ellipse(makeShape);
         }
-        else{
-            System.out.println("Pick a shape to draw");
-            return null;
-        }
     }
-
 }

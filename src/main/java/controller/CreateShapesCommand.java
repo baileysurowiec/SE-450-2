@@ -7,6 +7,9 @@ import model.interfaces.IShape;
 import model.shapes.MakeShape;
 import model.shapes.MyShapesList;
 import java.awt.*;
+
+//import static model.shapes.MakeShape.setShapeSettings;
+import static model.shapes.MyShapesList.*;
 import static model.shapes.ShapeFactory.createShape;
 
 // create shape command class
@@ -18,7 +21,6 @@ public class CreateShapesCommand implements ICommand, IUndoable{
     private Point startC;
     private Point endC;
     public IShape iShape;
-
     private ShapeShadingType shadingType;
     private ShapeType shapeType;
     private ShapeColor primaryColor;
@@ -39,7 +41,7 @@ public class CreateShapesCommand implements ICommand, IUndoable{
     public void run() {
         MakeShape makeShape = new MakeShape(startC, endC, shapeType, shadingType, primaryColor, secondaryColor);
         iShape = createShape(makeShape);
-        myShapesList.addShape(iShape); // save shape into myShapes list
+        myShapesList.addShape(iShape);  // save shape into myShapes list
         CommandHistory.add(this);
     }
 

@@ -16,22 +16,47 @@ public class MyShapesList {
     public static ArrayList<IShape> deletedShapeList = new ArrayList<>(); // store for undo & redo
     public static ArrayList<IShape> selectedUndoRedo = new ArrayList<>();
     public static ArrayList<IShape> copyShapeList = new ArrayList<>();
-    public static ArrayList<ArrayList<IShape>> deletedSelection = new ArrayList<>();
-    public static ArrayList<ArrayList<IShape>> deletedRedoSelection = new ArrayList<>();
+
+    public static ArrayList<Group> copyGroupList = new ArrayList<>();
+    public static ArrayList<Group> myGroupsList = new ArrayList<>();
+    public static ArrayList<Group> selectedGroups = new ArrayList<>();
+    public static ArrayList<IShape> moveGroupedShapes = new ArrayList<>();
+    public static ArrayList<Group> groupHistory = new ArrayList<>();
+    public static ArrayList<Group> groupsList = new ArrayList<>();
+
+
+//    public static ArrayList<IShape> myGroupsList = new ArrayList<>();
 
     public MyShapesList(ApplicationState applicationState, PaintCanvasBase pcb){
         this.applicationState = applicationState;
         this.pc = (PaintCanvas) pcb;
     }
 
+//    public static void setGroupsList(){
+//        for(IShape s : myShapeList){
+//            if(s.getMadeShape().group != null){
+////            if (!s.getMadeShape().undoGroupHistory.isEmpty()){
+//                if(!groupsList.contains(s.getMadeShape().group)){
+//                    groupsList.add(s.getMadeShape().group);
+//                }
+//            }
+//        }
+//        return groupsList;
+//    }
+//    public static void groupCount(IShape shape){
+//        int count = 0;
+//        for(Group g: myGroupsList){
+//            if(g.getGroupedShapes().contains(shape)){
+//                count++;
+//            }
+//        }
+//        System.out.println(count);
+////        return count;
+//    }
+
     public void addShape(IShape iShape){
         myShapeList.add(iShape);
         deletedShapeList.clear();
-        drawMyShapes(); // redraw with new shape
-    }
-
-    public void addToSelected(IShape iShape){
-        selectedShapeList.add(iShape);
         drawMyShapes(); // redraw with new shape
     }
 
@@ -54,9 +79,12 @@ public class MyShapesList {
     public void clearSelected(){
         selectedShapeList.clear();
         selectedUndoRedo.clear();
+        selectedGroups.clear();
+        moveGroupedShapes.clear();
         for (IShape aShape : myShapeList){
             aShape.getMadeShape().shapeSelected = false;
         }
+        for(Group g : myGroupsList){ g.groupSelected = false; }
     }
 
     public static void redoSelected(IShape redo){
@@ -68,25 +96,21 @@ public class MyShapesList {
 
     public static void redoShape(){
         if(myShapeList.size() != 0 && deletedShapeList.size() == 0 || myShapeList.size()==0 && selectedUndoRedo.size()==0){
-            System.out.println("list is empty");
+            System.out.println("list is eeeeempty");
             return;
         }
         IShape redo = deletedShapeList.remove(deletedShapeList.size() - 1);
         myShapeList.add(redo);
-        if (selectedUndoRedo.contains(redo)){
-            redoSelected(redo);
-        }
+        if (selectedUndoRedo.contains(redo)){ redoSelected(redo); }
         drawMyShapes();
     }
 
     public static void drawMyShapes(){
-        DrawShapes drawShapes = new DrawShapes(myShapeList, pc);
+//        pc.repaint();
+        DrawShapes drawShapes = new DrawShapes(pc);
         drawShapes.drawShapeLists();
     }
 
     public static ArrayList<IShape> getMyShapeList() { return myShapeList; }
-    public ArrayList<IShape> getDeletedShapeList() { return deletedShapeList; }
-    public ArrayList<IShape> getSelectedShapeList() { return selectedShapeList; }
-
     }
 

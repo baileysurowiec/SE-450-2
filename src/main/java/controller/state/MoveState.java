@@ -5,16 +5,24 @@ import controller.MoveShapesCommand;
 import model.persistence.ApplicationState;
 import model.shapes.MyShapesList;
 import java.awt.*;
+import static model.shapes.MyShapesList.myGroupsList;
 
 public class MoveState implements IState {
     ICommand command;
     @Override
-    public void doState(ApplicationState appState, Point startC, Point endC, MyShapesList myShapesList) {
-        if(myShapesList.getMyShapeList().isEmpty()){
+    public void doState(ApplicationState applicationState, Point startC, Point endC, MyShapesList myShapesList) {
+        if(myShapesList.getMyShapeList().isEmpty() && myGroupsList.isEmpty()){
             System.out.println("Nothing to move");
             return;
         }
         command = new MoveShapesCommand(startC, endC, myShapesList);
-        command.run();
     }
+
+    @Override
+    public ICommand getCommand() {
+        return command;
+    }
+
+//    @Override
+//    public void setDrawSettings(ApplicationState applicationState){}
 }
