@@ -3,13 +3,10 @@ package view.gui;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
-
 import javax.swing.*;
 import javax.swing.border.*;
-
 import view.interfaces.IGuiWindow;
 import view.EventName;
-
 import java.awt.*;
 
 public class GuiWindow extends JFrame implements IGuiWindow {

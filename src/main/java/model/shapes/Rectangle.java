@@ -51,46 +51,19 @@ public class Rectangle implements IShape {
             g.drawRect(x, y, w, h);
         }
     }
-    @Override
-    public Boolean isSelected(){
-        return makeShape.shapeSelected;
-    }
 
     @Override
     public MakeShape getMadeShape() {
         return makeShape;
     }
 
-//    @Override
-//    public Group2trial getGroup(){
-//        return null;
-//    }
 
     @Override
     public Boolean isGroup() {
-        return false;
-//        int count = 0;
-//        for(Group g : makeShape.groupsList){
-//            for(Group g2 : makeShape.groupsList){
-//                if(g.equals(g2)){
-//                    count ++;
-//                }
-//            }
-//        }
-//        if(makeShape.groupsList.size() == count){
-//            return false;
-//        }
-//        return true;
-//        if(makeShape.uniqueGroups() == false){
-//            return true;
-//        }
-//        return false;
-//        for(Group group: myGroupsList){
-//            if(group.getGroupedShapes().contains(this)){
-//                return true;
-//            }
-//        }
-//        return false;
+        if(makeShape.groupsList.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
 }

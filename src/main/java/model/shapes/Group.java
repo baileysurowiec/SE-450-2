@@ -3,15 +3,9 @@ package model.shapes;
 import model.interfaces.IShape;
 import java.awt.*;
 import java.util.ArrayList;
-import static model.shapes.MyShapesList.*;
 
-
-public class Group implements IShape{//}, INull {
+public class Group implements IShape{
     public ArrayList<IShape> groupedShapes; // children of group
-    public ArrayList<IShape> deletedGroupShapes = new ArrayList<>();
-
-    public ArrayList<ArrayList<IShape>> undoGroupedShapes;
-
     public int x;
     public int y;
     public int width;
@@ -22,35 +16,12 @@ public class Group implements IShape{//}, INull {
         groupedShapes = group;
         for(IShape shape : groupedShapes){ // set the shapes groups when a new group is made
             shape.getMadeShape().group = this;
-//            shape.getMadeShape().addToGroupList(this); // add current group to each shapes group list
+            shape.getMadeShape().addToGroupList(this); // add current group to each shapes group list
         }
     }
 
-//    public void storeGroup(){
-//        for(IShape shape : groupedShapes){
-//            shape.getMadeShape().setShapeGroup();
-//        }
-
-//        for(IShape shape : groupedShapes){
-//            shape.getMadeShape().addToGroupList(this);
-//        }
-//    }
-
-//    public int getGroupSize(){
-//        return groupedShapes.size();
-//    }
-
-    public void addShapeToGroup(IShape shape){
-        groupedShapes.add(shape);
-//        setGroupBounds();
-    }
-
-    public void removeShapeFromGroup(IShape shape){
-        groupedShapes.remove(shape);
-//        setGroupBounds();
-    }
-
-
+    public void addShapeToGroup(IShape shape){ groupedShapes.add(shape); }
+    public void removeShapeFromGroup(IShape shape){ groupedShapes.remove(shape); }
 
     public ArrayList<IShape> getGroupedShapes(){
         return groupedShapes;
@@ -64,21 +35,8 @@ public class Group implements IShape{//}, INull {
 
         if (gX < mx + mw && gX + gW > mx && gY < my + mh && gY + gH > my) {
             groupSelected = true;
-            moveGroupedShapes.addAll(groupedShapes);
         }
-        else{
-            groupSelected = false;
-        }
-    }
-
-
-    public void deleteGroup(Group group){
-        deletedGroupShapes.addAll(group.groupedShapes);
-        groupedShapes.clear();
-    }
-
-    public void undoDelete(Group group){
-
+        else{ groupSelected = false; }
     }
 
     public void setGroupBounds(){
@@ -106,15 +64,11 @@ public class Group implements IShape{//}, INull {
                 y2 = my;
             }
         }
-        x = Math.min(x1, x2) ;//-10;
-        y = Math.min(y1, y2) ;//-10;
-        width = Math.abs(x1-x2) ;//+10;
-        height = Math.abs(y1-y2) ;//+10;
+        x = Math.min(x1, x2);
+        y = Math.min(y1, y2);
+        width = Math.abs(x1-x2);
+        height = Math.abs(y1-y2);
     }
-
-//    public Group getGroup(){
-//        return this;
-//    }
 
 
     @Override
@@ -129,33 +83,13 @@ public class Group implements IShape{//}, INull {
     public MakeShape getMadeShape() {
         MakeShape shape = null;
         for (IShape s : groupedShapes){
-           shape = s.getMadeShape();
-        }
+           shape = s.getMadeShape(); }
         return shape;
     }
-
-//    @Override
-//    public Group2trial getGroup(){
-//        return null;
-//    }
 
     @Override
     public Boolean isGroup() {
         return true;
     }
 
-    @Override
-    public Boolean isSelected() {
-        return null;
-    }
-
-//    @Override
-//    public Boolean isNull() {
-//        return false;
-//    }
-//
-//    @Override
-//    public int getGroupSize() {
-//        return groupedShapes.size();
-//    }
 }

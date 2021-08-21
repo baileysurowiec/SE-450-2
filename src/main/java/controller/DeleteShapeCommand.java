@@ -13,7 +13,7 @@ public class DeleteShapeCommand implements ICommand, IUndoable{
 
     @Override
     public void run() {
-        if(selectedShapeList.size() == 0 && selectedGroups.size() ==0){
+        if(selectedShapeList.size() == 0 && selectedGroups.size() == 0){
             System.out.println("Nothing to delete");
             return;
         }
@@ -28,13 +28,12 @@ public class DeleteShapeCommand implements ICommand, IUndoable{
 
         ArrayList<Group> dG = new ArrayList<>();
         for(Group g: selectedGroups){ dG.add(g); }
-//        for(Group group : dG){
-//            for(IShape shape : group.getGroupedShapes()){
-//                myShapeList.remove(shape);
-//            }
-//        }
-        myGroupsList.removeAll(selectedGroups);
         deletedGroupList.add(dG);
+        for(Group group : selectedGroups){
+            for(IShape shape : group.getGroupedShapes()){
+                myShapeList.remove(shape);
+            }
+        }
         selectedGroups.clear();
 
         drawMyShapes(); // redraw with updated shape list
@@ -58,9 +57,10 @@ public class DeleteShapeCommand implements ICommand, IUndoable{
             ArrayList<Group> undoGroupD = deletedGroupList.remove(deletedGroupList.size()-1);
             for(Group undo : undoGroupD){
                 undo.groupSelected = true;
-                myGroupsList.add(undo);
                 selectedGroups.add(undo);
-//                for(IShape shape : undo.getGroupedShapes()){ myShapeList.add(shape); }
+                for(IShape shape : undo.getGroupedShapes()){
+                    if(!myShapeList.contains(shape)) { myShapeList.add(shape); }
+                }
             }
             redoDeletedGroup.add(undoGroupD);
         }
@@ -82,9 +82,9 @@ public class DeleteShapeCommand implements ICommand, IUndoable{
         if(!redoDeletedGroup.isEmpty()){
             ArrayList<Group> redoGroup = redoDeletedGroup.remove(redoDeletedGroup.size()-1);
             for(Group g : redoGroup){
-                myGroupsList.remove(g);
+                g.groupSelected = false;
                 selectedGroups.remove(g);
-//                for(IShape shape : g.getGroupedShapes()){ myShapeList.remove(shape); }
+                for(IShape shape : g.getGroupedShapes()){ myShapeList.remove(shape); }
             }
             deletedGroupList.add(redoGroup);
         }

@@ -51,7 +51,6 @@ public class Mouse extends MouseAdapter {
     @Override
     public void mouseReleased(MouseEvent e){
         endC = new Point(e.getX(), e.getY());
-//        state.setDrawSettings(applicationState);
         state.doState(applicationState, startC, endC, myShapesList);
         command = state.getCommand();
         command.run();

@@ -96,10 +96,16 @@ public class MoveShapesCommand implements ICommand, IUndoable{
 
         for (IShape moveShape: moveSelected) { moveShapes(moveShape, offset); }
 
+        ArrayList<IShape> moveGroupShapes = new ArrayList<>();
         for(Group group : moveGroups){
-            for(IShape shape : group.getGroupedShapes()){ moveShapes(shape, offset); }
-            group.setGroupBounds();
+            for(IShape shape : group.getGroupedShapes()) {
+                if (!moveGroupShapes.contains(shape)) {
+                    moveGroupShapes.add(shape);
+                }
+            }
         }
+
+        for(IShape shape: moveGroupShapes){ moveShapes(shape, offset); }
 
         drawMyShapes(); // redraw the shape list
         CommandHistory.add(this);
@@ -109,10 +115,14 @@ public class MoveShapesCommand implements ICommand, IUndoable{
     public void undo() {
         for (IShape undoShape: moveSelected){ undoMove(undoShape); }
 
+        ArrayList<IShape> undoMoveGroup = new ArrayList<>();
         for(Group group : moveGroups){
-            for(IShape shape : group.getGroupedShapes()) { undoMove(shape); }
-            group.setGroupBounds();
+            for(IShape shape : group.getGroupedShapes()) {
+                if(!undoMoveGroup.contains(shape)){ undoMoveGroup.add(shape); }
+            }
         }
+        for(IShape s : undoMoveGroup){ undoMove(s); }
+
         drawMyShapes();
     }
 
@@ -120,10 +130,15 @@ public class MoveShapesCommand implements ICommand, IUndoable{
     public void redo() {
         for (IShape redoShape: moveSelected) { redoMove(redoShape); }
 
+        ArrayList<IShape> redoMoveGroup = new ArrayList<>();
+
         for(Group group : moveGroups){
-            for(IShape shape : group.getGroupedShapes()){ redoMove(shape); }
-            group.setGroupBounds();
+            for(IShape shape : group.getGroupedShapes()){
+                if(!redoMoveGroup.contains(shape)){ redoMoveGroup.add(shape); }
+            }
         }
+        for(IShape s : redoMoveGroup){ redoMove(s); }
+
         drawMyShapes();
     }
 }

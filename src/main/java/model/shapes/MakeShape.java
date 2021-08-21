@@ -34,14 +34,10 @@ public class MakeShape {//implements Cloneable{ //IPrototype {
 
     public Stack<Group> groupHistory = new Stack<>();
     public Stack<Group> undoGroupHistory = new Stack<>();
-
-//    public Group group;
     public ArrayList<Group> groupsList = new ArrayList<>();
     public ArrayList<Group> removedgroupList = new ArrayList<>();
 
     public Group group;
-
-    public int soloShapeCount;
 
     TrianglePointsStrategy trianglePointsStrategy;
     public int numberOfGroups = 0;
@@ -70,9 +66,6 @@ public class MakeShape {//implements Cloneable{ //IPrototype {
         }
     }
 
-//    public Group2trial getShapeGroup(){
-//        return group;
-//    }
 
     // find starting coords
     // need leftmost(least) X,Y coords for start of shape, rightmost(highest) for end of shape
@@ -129,75 +122,11 @@ public class MakeShape {//implements Cloneable{ //IPrototype {
     public void increaseGroup(){ numberOfGroups++; }
     public void decreaseGroup(){ numberOfGroups--; }
 
-//    public Boolean isGrouped(){
-//        for(Group group: myGroupsList){
-//            group.getGroupedShapes().contains(this);
-//        }
-////        return myGroupsList.contains(this);
-//    }
-//    public void setShapeGroup(){
-////        groupsList.add(group);
-//        if(groupsList.size() > 0){
-//            soloShapeCount--;
-//            this.group = groupsList.get(groupsList.size()-1);
-//        }// sets the active group to the last one in the list
-//        else{
-//            soloShapeCount++;
-//            group = null;
-//        }
-//    }
+    public void addToGroupList(Group group){ groupsList.add(group); }
 
-    public void addToGroupList(Group group){
-//        if(!groupsList.isEmpty()) {
-//            if (groupsList.contains(group)) {
-//                grouped = false;
-//            } else {
-//                grouped = true;
-//            }
-//        }
-        groupsList.add(group);
+    public Group getLastGroup(){
+        Group g = groupsList.get(groupsList.size()-1);
+        return g;
     }
-
-//    public void undoGroup(){
-//        if(!groupsList.isEmpty()) {
-//            removedgroupList.add(groupsList.remove(groupsList.size() - 1));
-////            soloShapeCount--;
-//        }
-//        setShapeGroup();
-//    }
-
-//    public void redoGroup(){
-////        if(soloShapeCount == 0){
-//        if(!removedgroupList.isEmpty()) {
-//            groupsList.add(removedgroupList.remove(removedgroupList.size() - 1));
-////            setShapeGroup();
-//        }//}
-//        setShapeGroup();
-//    }
-
-    public Boolean hasGroup(){
-        return this.group != null;
-    }
-
-    public Boolean uniqueGroups(){
-        for(Group g: groupsList){
-            for(Group g2: groupsList){
-                if(!g.equals(g2)){
-                   return true;
-                }
-            }
-        }
-        return false;
-    }
-
-//    public int groupCount(){
-//        int count = 0;
-//        for(Group g: myGroupsList){
-//            if(g.getGroupedShapes().contains(this)){
-//                count++;
-//            }
-//        }
-//        return count;
-//    }
 
 }

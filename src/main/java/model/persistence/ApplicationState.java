@@ -5,7 +5,6 @@ import model.*;
 import model.dialogs.DialogProvider;
 import model.interfaces.IApplicationState;
 import model.interfaces.IDialogProvider;
-import model.shapes.MyShapesList;
 import view.interfaces.IUiModule;
 
 // lots of sets and gets here

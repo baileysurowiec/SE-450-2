@@ -16,10 +16,9 @@ public class CopyShapesCommand implements ICommand{
         int offset = -50;
 
         ArrayList<IShape> copyClipboard = new ArrayList<>();
-//        for(IShape shape : selectedShapeList) {
-//            if(!shape.isGroup()) { copyClipboard.add(shape); }
-//        }
+
         copyClipboard.addAll(selectedShapeList);
+
         for (IShape copyShape: copyClipboard){
             MakeShape m = copyShape.getMadeShape();
             // setting offset for copied shapes
@@ -35,6 +34,7 @@ public class CopyShapesCommand implements ICommand{
         }
         ArrayList<Group> copyGroupClipboard = new ArrayList<>();
         copyGroupClipboard.addAll(selectedGroups);
+
         for(Group group : copyGroupClipboard){
             for (IShape copyShape: group.getGroupedShapes()){
             // setting offset for copied shapes

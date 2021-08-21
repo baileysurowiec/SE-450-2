@@ -7,9 +7,6 @@ import model.interfaces.IShape;
 import model.shapes.MakeShape;
 import model.shapes.MyShapesList;
 import java.awt.*;
-
-//import static model.shapes.MakeShape.setShapeSettings;
-import static model.shapes.MyShapesList.*;
 import static model.shapes.ShapeFactory.createShape;
 
 // create shape command class

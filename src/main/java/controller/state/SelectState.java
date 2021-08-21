@@ -23,6 +23,4 @@ public class SelectState implements IState {
         return command;
     }
 
-//    @Override
-//    public void setDrawSettings(ApplicationState applicationState){}
 }

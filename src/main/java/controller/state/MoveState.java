@@ -22,7 +22,4 @@ public class MoveState implements IState {
     public ICommand getCommand() {
         return command;
     }
-
-//    @Override
-//    public void setDrawSettings(ApplicationState applicationState){}
 }

@@ -1,6 +1,4 @@
 package model.interfaces;
-
-//import model.shapes.Group2trial;
 import model.shapes.MakeShape;
 import java.awt.*;
 
@@ -9,7 +7,4 @@ public interface IShape {
     void draw(Graphics g);
     MakeShape getMadeShape();
     Boolean isGroup();
-    Boolean isSelected();
-//    Group2trial getGroup();
-
 }

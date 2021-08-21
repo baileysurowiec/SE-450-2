@@ -1,7 +1,6 @@
 package controller;
 
 import model.interfaces.IApplicationState;
-import model.persistence.ApplicationState;
 import view.EventName;
 import view.interfaces.IUiModule;
 

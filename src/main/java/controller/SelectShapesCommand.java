@@ -32,7 +32,12 @@ public class SelectShapesCommand implements ICommand{
         int mouseBoundsWidth = Math.abs((int) startC.getX() - (int) endC.getX());
         int mouseBoundsHeight = Math.abs((int) startC.getY() - (int) endC.getY());
             // if in bounding box add selected shape(s) to selected shape list
+
+        ArrayList<Group> selectGroups = new ArrayList<>();
+
         for (IShape iShape : moveToSelected) {
+
+            if(!iShape.isGroup()) {
                 int shapeMinX = (int) Math.min(iShape.getMadeShape().getStartC().getX(), iShape.getMadeShape().getEndC().getX() - 5);
                 int shapeMinY = (int) Math.min(iShape.getMadeShape().getStartC().getY(), iShape.getMadeShape().getEndC().getY() - 5);
                 int shapeWidth = iShape.getMadeShape().getWidth() + 10;
@@ -44,12 +49,21 @@ public class SelectShapesCommand implements ICommand{
                     selectedShapeList.add(iShape);
                 }
             }
+            else{
+                Group s = iShape.getMadeShape().getLastGroup();
+                    if(!selectGroups.contains(s)){
+                        selectGroups.add(s);
+                    }
+            }
 
-        for(Group g : myGroupsList){
-            g.selectGroup(mouseMinX, mouseMinY, mouseBoundsWidth, mouseBoundsHeight);
-            if(g.groupSelected){ selectedGroups.add(g); }
         }
-
+        for(Group g: selectGroups){
+            g.selectGroup(mouseMinX, mouseMinY, mouseBoundsWidth, mouseBoundsHeight);
+            if(g.groupSelected){
+                selectedGroups.add(g);
+            }
+        }
         drawMyShapes();
     }
+
 }

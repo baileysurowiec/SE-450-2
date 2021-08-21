@@ -1,7 +1,6 @@
 package view.gui;
 
 import javax.swing.*;
-
 import view.EventName;
 import view.interfaces.IDialogChoice;
 import view.interfaces.IEventCallback;

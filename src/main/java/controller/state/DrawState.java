@@ -11,10 +11,7 @@ import java.awt.*;
 
 public class DrawState implements IState {
     ICommand command;
-//    ShapeType shapeType;
-//    ShapeShadingType shadingType;
-//    ShapeColor primaryColor;
-//    ShapeColor secondaryColor;
+
     @Override
     public void doState(ApplicationState applicationState, Point start, Point end, MyShapesList myShapesList) {//(ApplicationState applicationState, Point start, Point end, MyShapesList myShapesList) {
         Point startC = start;
@@ -33,10 +30,4 @@ public class DrawState implements IState {
         return command;
     }
 
-//    public void setDrawSettings(ApplicationState applicationState){
-//        shapeType = applicationState.getActiveShapeType();
-//        shadingType = applicationState.getActiveShapeShadingType();
-//        primaryColor = applicationState.getActivePrimaryColor();
-//        secondaryColor = applicationState.getActiveSecondaryColor();
-//    }
 }
