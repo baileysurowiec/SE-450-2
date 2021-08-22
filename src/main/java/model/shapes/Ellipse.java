@@ -8,7 +8,6 @@ public class Ellipse implements IShape {
     MakeShape makeShape;
     private Color color;
     private Color secondaryColor;
-    private Boolean grouped = false;
 
     Ellipse(MakeShape makeShape){
         this.makeShape = makeShape;

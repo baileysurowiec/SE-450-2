@@ -11,7 +11,6 @@ public class Rectangle implements IShape {
     private Color color;
     private Color secondaryColor;
     MakeShape makeShape;
-    private Boolean grouped = false;
 
     // rectangle object
     Rectangle(MakeShape makeShape) {

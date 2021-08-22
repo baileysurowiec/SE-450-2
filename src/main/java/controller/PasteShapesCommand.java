@@ -60,9 +60,7 @@ public class PasteShapesCommand implements ICommand, IUndoable{
                 MakeShape makeShape = new MakeShape(startC, endC, st, sst, pC, sC );
                 pasteShape = createShape(makeShape);
 
-//                pasteShape.getMadeShape().groupsList = makeArrayListGroups(copyGroupList, newGroupsList);
                 pasteShape.getMadeShape().groupsList = new ArrayList<>(copyGroupList);
-//                pasteShape.getMadeShape().removedgroupList = makeArrayListGroups(copyRemovedGroups, newRemovedGroupList);
                 pasteShape.getMadeShape().removedgroupList = new ArrayList<>(copyRemovedGroups);
 
                 newCopiedGroup.add(pasteShape);

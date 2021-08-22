@@ -6,7 +6,6 @@ import java.awt.*;
 public class Triangle implements IShape{
     MakeShape makeShape;
     TrianglePointsStrategy trianglePointsStrategy;
-    private Boolean grouped = false;
 
     Triangle(MakeShape makeShape){ this.makeShape = makeShape; }
 

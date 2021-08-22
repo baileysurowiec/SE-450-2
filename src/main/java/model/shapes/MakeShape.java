@@ -6,7 +6,6 @@ import model.ShapeType;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Stack;
-import static model.shapes.MyShapesList.*;
 
 // being a shape class:
 // responsible for
@@ -32,15 +31,12 @@ public class MakeShape {//implements Cloneable{ //IPrototype {
     public Stack<Point> movedRedoStartStack = new Stack<>();
     public Stack<Point> movedRedoEndStack = new Stack<>();
 
-    public Stack<Group> groupHistory = new Stack<>();
-    public Stack<Group> undoGroupHistory = new Stack<>();
     public ArrayList<Group> groupsList = new ArrayList<>();
     public ArrayList<Group> removedgroupList = new ArrayList<>();
 
     public Group group;
 
     TrianglePointsStrategy trianglePointsStrategy;
-    public int numberOfGroups = 0;
 
     public MakeShape(Point startC, Point endC, ShapeType shapeType, ShapeShadingType shadingType, ShapeColor primaryColor, ShapeColor secondaryColor){
         this.startC = startC;
@@ -119,8 +115,6 @@ public class MakeShape {//implements Cloneable{ //IPrototype {
         trianglePointsStrategy = tps;
     }
 
-    public void increaseGroup(){ numberOfGroups++; }
-    public void decreaseGroup(){ numberOfGroups--; }
 
     public void addToGroupList(Group group){ groupsList.add(group); }
 
